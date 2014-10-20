@@ -1,0 +1,55 @@
+{
+  "name": "example-app",
+  "version": "0.1.0",
+  "main": "public/javascripts/app.js",
+  "dependencies": {
+    "chaplin": "~1.0.0",
+    "console-polyfill": "~0.1.0",
+    "lodash": "~2.4.0",
+    "underscore.string": "~2.3.3",
+    "jquery": "~2.0.2",
+    "normalize-css": "~2.1.2",
+    "h5bp-helpers": "~0.1.0",
+    "bootstrap": "~3.0.3",
+    "minilog": "~2.0.6",
+    "moment": "~2.4.0",
+    "d3": "~3.4.13",
+    "topojson": "http://d3js.org/topojson.v1.js",
+    "colorbrewer": "http://d3js.org/colorbrewer.v1.js",
+    "Backbone.dualStorage": "git://github.com/nilbus/Backbone.dualStorage",
+    "google-analytics": "http://www.google-analytics.com/analytics.js"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "~1.18.2",
+    "sinon": "~1.9.1",
+    "sinon-chai": "~2.5.0"
+  },
+  "overrides": {
+    "backbone": {
+      "dependencies": {
+        "lodash": "*",
+        "jquery": "*"
+      },
+      "main": "backbone.js"
+    },
+    "underscore.string": {
+      "dependencies": {},
+      "main": "lib/underscore.string.js"
+    },
+    "sinon": {
+      "dependencies": {
+        "formatio": "~1.0",
+        "util": ">=0.10.3 <1"
+      },
+      "main": "./lib/sinon.js"
+    },
+    "sinon-chai": {
+      "dependencies": {
+        "chai": ">=1.0.0 <2",
+        "sinon": ">=1.4.0 <2"
+      },
+      "main": "./lib/sinon-chai.js"
+    }
+  }
+}

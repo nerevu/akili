@@ -1,0 +1,40 @@
+<div class="col-sm-12">
+  <div id="home" class="">
+  	<h2 class="text-left">{{factor}} prevalence by {{level}}</h2>
+  	<hr>
+  	<div class="form-group"></div>
+      <div class="row">
+        <div class="col-sm-6">
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <div class="col-sm-2">
+                <label class="control-label">Metric</label>
+              </div>
+              <div class="col-sm-10">
+                <select class="form-control">
+                  <option>Obesity</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-6">
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <div class="col-sm-2">
+                <label class="control-label">Map</label>
+              </div>
+              <div class="col-sm-10">
+                <select class="form-control">
+                  <option>County</option>
+                  <option>State</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="choropleth"><svg id="svg"></svg></div>
+  </div>
+</div>
