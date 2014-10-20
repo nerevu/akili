@@ -1,5 +1,5 @@
 {
-  "name": "example-app",
+  "name": "hhs-risk-factor-disparities",
   "version": "0.1.0",
   "main": "public/javascripts/app.js",
   "dependencies": {
