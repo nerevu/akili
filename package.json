@@ -30,6 +30,7 @@
     "json-brunch": "~1.5.4",
     "winston": "0.7.x",
     "winston-papertrail": "~0.1.4",
+    "toobusy": "0.2.x",
     "express": "~4.7.2",
     "connect-timeout": "~1.2.1",
     "morgan": "~1.2.2",
