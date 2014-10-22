@@ -16,7 +16,7 @@
   "scripts": {
     "start": "brunch watch --server",
     "test": "mocha-phantomjs -s loadImages=false public/test/index.html",
-    "postinstall": "brunch build"
+    "postinstall": "bower install && brunch build"
   },
   "dependencies": {
     "brunch": "1.6",
