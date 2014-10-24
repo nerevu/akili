@@ -77,21 +77,13 @@ BUT should not have errors
 */
 body {overflow-x: hidden !important;}
 
-.choropleth {
-  height: 600px;
-}
-
 .state {
   fill: none;
   stroke: #fff;
   stroke-linejoin: round;
 }
 
-svg {
-  width: 960px;
-  height: 600px;
-  position: relative;
-}
+svg {position: relative;}
 
 /* NVD3 CSS */
 .nvtooltip {

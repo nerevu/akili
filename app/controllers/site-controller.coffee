@@ -1,19 +1,47 @@
 Controller = require 'controllers/base/controller'
 MainView = require 'views/main-view'
+PageView = require 'views/page-view'
 config= require 'config'
 utils = require 'lib/utils'
 mediator = require 'mediator'
 
 module.exports = class SiteController extends Controller
-  index: (params) =>
+  initialize: (params) =>
+    utils.log "initialize site-controller"
+    @factor = params?.factor ? config.default.factor
+    @coloredLevel = params?.level ? config.default.level
+
+  show: (params) =>
+    utils.log "show site-controller"
+    @title = config.site.pages[params.page]?.title
+    @url = utils.reverse 'site#show', params
+    @active = params.page
+    content = config.site.pages[params.page]?.content
+    @viewPage PageView, content: content
+
+  index: (params) => @reuse "#{@factor}:#{@coloredLevel}", =>
     utils.log "index site-controller"
-    title = config.site.main.title
+    @title = config.site.main.title
+    @url = utils.reverse 'site#index', params
+    @active = config.site.main.page
+    allLevels = ['county', 'state']
+    shownLevels = if @coloredLevel is 'state' then ['state'] else allLevels
 
-    @adjustTitle title
-    mediator.setActive config.site.main.page
-    mediator.setUrl utils.reverse 'site#index', params
-    utils.log title, 'pageview'
+    options =
+      factor: @factor
+      model: @risks.findWhere factor: @factor
+      risks: @risks.pluck 'factor'
+      topology: @topology.get 'topology'
+      names: @names.findWhere(type: @coloredLevel).get 'names'
+      allLevels: allLevels
+      shownLevels: shownLevels
+      coloredLevel: @coloredLevel
 
-    @view = new MainView
-      model: @risks.findWhere factor: params?.factor ? config.default.factor
-      level: params?.level ? config.default.level
+    @viewPage MainView, options
+
+  viewPage: (theView, options) =>
+    @adjustTitle @title
+    mediator.setUrl @url
+    mediator.setActivePage @active
+    utils.log @title, 'pageview'
+    @view = new theView options
