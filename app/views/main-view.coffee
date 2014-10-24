@@ -2,7 +2,8 @@ View = require 'views/base/view'
 template = require 'views/templates/home'
 config = require 'config'
 utils = require 'lib/utils'
-makeChoropleth = require 'lib/makechoropleth'
+mediator = require 'mediator'
+Choropleth = require 'lib/choropleth'
 
 module.exports = class MainView extends View
   autoRender: true
@@ -13,16 +14,38 @@ module.exports = class MainView extends View
   initialize: (options) =>
     super
     utils.log 'initializing main view'
-    @level = options.level
-    options.selection = ".choropleth svg"
-    options.data = @model.get "#{@level}"
-    _.defer makeChoropleth, options
+    @options = _.clone(options)
+    @options.parent = '#map'
+    @options.selection = '#map svg'
+    @options.data = @model.get options.coloredLevel
+    @choropleth = new Choropleth @options
+    @choropleth.init @options
+    @delegate 'change', '#risk-factor', @getRiskFactor
+    @delegate 'change', '#map-detail', @getMapDetail
+    mediator.setActiveMap options.coloredLevel
+    mediator.setActiveFactor options.factor
 
   render: =>
     super
+    _.defer @choropleth.makeChart
+
+  getRiskFactor: =>
+    factor = @.$('#risk-form').serializeArray()[0].value.toLowerCase()
+    utils.redirectTo url: "app/#{factor}/#{@options.coloredLevel}"
+
+  getMapDetail: =>
+    coloredLevel = @.$('#map-form').serializeArray()[0].value.toLowerCase()
+    utils.redirectTo url: "app/#{@options.factor}/#{coloredLevel}"
 
   getTemplateData: =>
     utils.log 'get main view template data'
     templateData = super
-    templateData.level = @level
+    templateData.colors = @choropleth.getColors()
+    templateData.min = @choropleth.extent[0]
+    templateData.max = @choropleth.extent[1]
+    templateData.percent = @choropleth.getPercent()
+    templateData.levels = @options.allLevels
+    templateData.level = @options.coloredLevel
+    templateData.factor = @options.factor
+    templateData.risks = @options.risks
     templateData

@@ -1,33 +1,34 @@
 <div class="col-sm-12">
   <div id="home" class="">
-  	<h2 class="text-left">{{factor}} prevalence by {{level}}</h2>
-  	<hr>
   	<div class="form-group"></div>
       <div class="row">
         <div class="col-sm-6">
-          <form class="form-horizontal" role="form">
+          <form id="risk-form" class="form-horizontal" role="form">
             <div class="form-group">
-              <div class="col-sm-2">
-                <label class="control-label">Metric</label>
+              <div class="col-sm-3">
+                <label class="control-label">Risk Factor</label>
               </div>
-              <div class="col-sm-10">
-                <select class="form-control">
-                  <option>Obesity</option>
+              <div class="col-sm-9">
+                <select id="risk-factor" name="risk_factor" class="form-control">
+                  {{#each risks}}
+                  <option {{#if_active_factor this}}selected{{/if_active_factor}}>{{this}}</option>
+                  {{/each}}
                 </select>
               </div>
             </div>
           </form>
         </div>
         <div class="col-sm-6">
-          <form class="form-horizontal" role="form">
+          <form id="map-form" class="form-horizontal" role="form">
             <div class="form-group">
               <div class="col-sm-2">
                 <label class="control-label">Map</label>
               </div>
               <div class="col-sm-10">
-                <select class="form-control">
-                  <option>County</option>
-                  <option>State</option>
+                <select id="map-detail" name="map_detail" class="form-control">
+                  {{#each levels}}
+                  <option {{#if_active_map this}}selected{{/if_active_map}}>{{this}}</option>
+                  {{/each}}
                 </select>
               </div>
             </div>
@@ -35,6 +36,23 @@
         </div>
       </div>
     </div>
-    <div class="choropleth"><svg id="svg"></svg></div>
+    <hr>
+    <h2 class="text-left">{{factor}} prevalence by {{level}}</h2>
+    <div id="map" class="choropleth row">
+      <div class="progress">
+        {{#each colors}}
+        <div class="progress-bar" role="progressbar" style="width: {{../percent}}%; background-color: {{this}};">
+          <span class="sr-only">{{../percent}}% Complete</span>
+        </div>
+        {{/each}}
+      </div>
+      <div class="col-xs-6">
+        <p class="text-left">{{min}}</p>
+      </div>
+      <div class="col-xs-6">
+        <p class="text-right">{{max}}</p>
+      </div>
+      <svg id="svg"></svg>
+    </div>
   </div>
 </div>

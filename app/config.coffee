@@ -3,7 +3,7 @@ site_name = 'HHS Disparity'
 config =
   author:
     name: 'Team Akili'
-    url: ''
+    url: 'https://github.com/reubano/akili'
     email: 'team-akili@googlegroups.com'
 
   site:
@@ -20,10 +20,30 @@ config =
     # Web pages
     main:
       page: 'home'
-      href: '/'
+      href: '/app'
       title: 'App'
 
-    pages: null
+    pages:
+      about:
+        page: 'about'
+        href: '/about'
+        title: 'About'
+        content: '250-word explanation of the project'
+      video:
+        page: 'video'
+        href: '/video'
+        title: 'Video'
+        content: 'embedded youtube video'
+      data:
+        page: 'data'
+        href: '/data'
+        title: 'Datasets'
+        content: 'List of all datasets used in the project development'
+      source:
+        page: 'source'
+        href: '/source'
+        title: 'Source Code'
+        content: 'Link to source code'
 
   default:
     factor: 'unemployment'

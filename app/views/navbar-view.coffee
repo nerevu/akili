@@ -9,7 +9,7 @@ module.exports = class NavbarView extends View
   className: 'container'
   region: 'navbar'
   template: template
-  listen: 'activeNav mediator': 'render'
+  listen: 'activePage mediator': 'render'
 
   initialize: (options) =>
     super
