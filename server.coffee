@@ -2,6 +2,7 @@
 
 # External dependencies
 express = require 'express'
+toobusy = require 'toobusy-js'
 winston = require 'winston'
 papertrail = require('winston-papertrail').Papertrail
 morgan = require 'morgan'
@@ -71,9 +72,8 @@ app.use haltOnTimedout
 app.use (req, res, next) ->
   return next() if not toobusy() or (config.dev and not debug_toobusy)
   res.setHeader 'Retry-After', sv_retry_after
-  data = {login: req.body.login, hash: req.body.hash, data: req.body.string?}
-  res.location req.url + if data then "?#{JSON.stringify data}"  else ''
-  err = {message: "server too busy. try #{loc} again later."}
+  res.location req.url
+  err = {message: "server too busy. try #{req.url} again later."}
   logError err, 'app', false
   sendError err, res, 'app', 503
 
