@@ -6,7 +6,7 @@ utils = require 'lib/utils'
 
 module.exports = class FooterView extends View
   autoRender: true
-  className: 'container'
+  className: 'row'
   region: 'footer'
   template: template
 

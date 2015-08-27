@@ -1,25 +1,8 @@
 <div class="navbar-header">
-  <button
-    type="button"
-    class="navbar-toggle"
-    data-toggle="collapse"
-    data-target=".navbar-collapse"
-  >
-    <span class="sr-only">Toggle navigation</span>
-    {{#each pages}}<span class="icon-bar"></span>{{/each}}
-  </button>
   <a
-    class="{{#if_active_page main.page}}active-nav{{/if_active_page}} navbar-brand"
-    href="{{main.href}}">
-    {{main.title}}
+    class="active-nav navbar-brand"
+    id="nav-home"
+    href="/">
+    {{site.home.title}}
   </a>
 </div>
-<div class="collapse navbar-collapse">
-  <ul class="nav navbar-nav">
- 	{{#each pages}}
-    <li {{#if_active_page page}}class="active"{{/if_active_page}}>
-      <a href="{{href}}">{{title}}</a>
-    </li>
-	{{/each}}
-  </ul>
-</div><!--/.nav-collapse -->

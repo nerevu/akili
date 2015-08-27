@@ -1,6 +1,5 @@
 Controller = require 'controllers/base/controller'
 MainView = require 'views/main-view'
-PageView = require 'views/page-view'
 config= require 'config'
 utils = require 'lib/utils'
 mediator = require 'mediator'
@@ -9,39 +8,33 @@ module.exports = class SiteController extends Controller
   initialize: (params) =>
     utils.log "initialize site-controller"
     @factor = params?.factor ? config.default.factor
-    @coloredLevel = params?.level ? config.default.level
+    @title = config.site.home.title
 
-  show: (params) =>
-    utils.log "show site-controller"
-    @title = config.site.pages[params.page]?.title
-    @url = utils.reverse 'site#show', params
-    @active = params.page
-    content = config.site.pages[params.page]?.content
-    @viewPage PageView, content: content
-
-  index: (params) => @reuse "#{@factor}:#{@coloredLevel}", =>
-    utils.log "index site-controller"
-    @title = config.site.main.title
-    @url = utils.reverse 'site#index', params
-    @active = config.site.main.page
-    allLevels = ['county', 'state']
-    shownLevels = if @coloredLevel is 'state' then ['state'] else allLevels
-
+  getOptions: =>
     options =
+      collection: @collection
       factor: @factor
-      model: @risks.findWhere factor: @factor
-      risks: @risks.pluck 'factor'
+      factors: config.default.factors
       topology: @topology.get 'topology'
-      names: @names.findWhere(type: @coloredLevel).get 'names'
-      allLevels: allLevels
-      shownLevels: shownLevels
-      coloredLevel: @coloredLevel
+      names: @names.toJSON()
+      level: config.default.level
+      levels: config.default.levels
+      data: @collection.toJSON()
+      idAttr: config.default.id_attr
+      nameAttr: config.default.name_attr
+      metricAttr: config.default.metric_attr
 
-    @viewPage MainView, options
+  show: (params) => @reuse @factor, =>
+    utils.log "home site-controller"
+    @url = utils.reverse 'site#show', params
 
-  viewPage: (theView, options) =>
+    if mediator.synced
+      @viewPage @getOptions()
+    else
+      @subscribeEvent 'synced', -> @viewPage @getOptions()
+
+  viewPage: (options) =>
     @adjustTitle @title
     mediator.setUrl @url
-    mediator.setActivePage @active
     utils.log @title, 'pageview'
-    @view = new theView options
+    @view = new MainView options
