@@ -51,12 +51,14 @@ config =
     level: 'county'
 
   google:
-    analytics_tracking_id: ''
-    adwords_id: '479-081-1830'
-    displayads_id: ''
+    analytics:
+      id: $PROCESS_ENV_GOOGLE_ANALYTICS_TRACKING_ID ? null
+      site_number: 3
+    adwords_id: $PROCESS_ENV_GOOGLE_ADWORDS_ID ? null
+    displayads_id: $PROCESS_ENV_GOOGLE_DISPLAYADS_ID ? null
     app_name: site_name
     app_id: ''
-    plus_id: ''
+    plus_id: $PROCESS_ENV_GOOGLE_PLUS_ID ? null
 
   facebook:
     app_id: ''
