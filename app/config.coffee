@@ -1,27 +1,28 @@
-site_name = 'HHS Disparity'
+site_name = 'Moringa Data Viz Training App'
 
 config =
   author:
-    name: 'Team Akili'
-    url: 'https://github.com/reubano/akili'
-    email: 'team-akili@googlegroups.com'
+    name: 'Reuben Cummings'
+    url: 'https://reubano.github.io'
+    email: 'reubano@gmail.com'
 
   site:
     title: site_name
-    description: 'An HTML5 application built with Brunch and Chaplin.'
-    url: 'https://github.com/paulmillr/brunch-with-chaplin'
-    id: 'com.akili.hhs_risk_factor_disparities'
-    type: 'website'
+    description: 'An HTML5 data viz application built with Brunch and Chaplin.'
+    url: 'https://akili.heroku.com'
+    id: 'com.akili.vizapp'
+    type: 'webapp'
     version: '0.1.0'
     keywords: """
       brunch, chaplin, nodejs, backbonejs, bower, html5, single page app
       """
 
     # Web pages
-    main:
-      page: 'home'
+    home:
+      id: 'food'
+      page: 'app'
       href: '/app'
-      title: 'App'
+      title: site_name
 
     pages:
       about:

@@ -21,9 +21,9 @@ module.exports = class SiteController extends Controller
 
   index: (params) => @reuse "#{@factor}:#{@coloredLevel}", =>
     utils.log "index site-controller"
-    @title = config.site.main.title
+    @title = config.site.home.title
     @url = utils.reverse 'site#index', params
-    @active = config.site.main.page
+    @active = config.site.home.page
     allLevels = ['county', 'state']
     shownLevels = if @coloredLevel is 'state' then ['state'] else allLevels
 
@@ -42,6 +42,5 @@ module.exports = class SiteController extends Controller
   viewPage: (theView, options) =>
     @adjustTitle @title
     mediator.setUrl @url
-    mediator.setActivePage @active
     utils.log @title, 'pageview'
     @view = new theView options

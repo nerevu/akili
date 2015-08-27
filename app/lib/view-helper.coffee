@@ -1,4 +1,5 @@
 mediator = require 'mediator'
+config = require 'config'
 devconfig = require 'devconfig'
 
 # Application-specific view helpers
@@ -8,6 +9,12 @@ utils = require './utils'
 
 register = (name, fn) ->
   Handlebars.registerHelper name, fn
+
+# Partials
+# ----------------------
+register 'partial', (name, context) ->
+  template = require "views/templates/partials/#{name}"
+  new Handlebars.SafeString template context
 
 # Map helpers
 # -----------
@@ -32,12 +39,6 @@ register 'url', (routeName, params..., options) ->
 
 # Conditional evaluation
 # ----------------------
-register 'if_active_page', (page, options) ->
-  if mediator.active.page is page
-    options.fn(this)
-  else
-    options.inverse(this)
-
 register 'if_active_map', (map, options) ->
   if mediator.active.map is map then options.fn(this) else options.inverse(this)
 
@@ -49,19 +50,22 @@ register 'if_current', (item, cur_item, options) ->
 
 # Other helpers
 # -----------
+register 'capitalize', (word) ->
+  new Handlebars.SafeString s.capitalize word
+
 # Convert date to day
 register 'get_day', (date) ->
   day = if date[-2..-2] is '0' then date[-1..] else date[-2..]
   new Handlebars.SafeString day
 
 # Loop n times
-register 'times', (n, block) ->
+register 'times', (n, options) ->
   accum = ''
   i = 1
   x = n + 1
 
   while i < x
-    accum += block.fn(i)
+    accum += options.fn(i)
     i++
 
   accum

@@ -1,9 +1,5 @@
 mediator = module.exports = Chaplin.mediator
 
-mediator.setActivePage = (page) ->
-  mediator.active.page = page
-  mediator.publish 'activePage'
-
 mediator.setActiveMap = (map) ->
   mediator.active.map = map
   mediator.publish 'activeMap'
@@ -13,4 +9,10 @@ mediator.setActiveFactor = (factor) ->
   mediator.publish 'activeFactor'
 
 mediator.setUrl = (url) ->
+  console.log "mediator.url is #{url}"
   mediator.url = url
+
+mediator.setSynced = (response) ->
+  console.log "data synced!!"
+  mediator.synced = true
+  mediator.publish "synced", response

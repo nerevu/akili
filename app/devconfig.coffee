@@ -1,17 +1,48 @@
-debug_mobile = false
-debug_production = false
-debug_logger = false
-debug_tracker = false
-analytics_url = 'http://www.google-analytics.com/collect'
+debug =
+  mobile: false
+  production: false
+
+time =
+  development:
+    scroll: 750  # in ms
+    logger: 5000  # in ms
+    max_cache: 12  # in hours
+
+  production:
+    scroll: 750
+    logger: 5000
+    max_cache: 24  # in hours
+
+enable =
+  development:
+    logger: local: true, remote: false
+    tracker: false
+    toobusy: false
+
+  production:
+    logger: local: true, remote: false
+    tracker: true
+    toobusy: true
+
+  testing:
+    logger: local: false, remote: false
+    tracker: false
+    toobusy: false
+
+urls =
+  development:
+    logger: 'http://localhost:8888/v1/log'
+    tracker: 'http://www.google-analytics.com/collect'
+
+  production:
+    logger: 'http://flogger.herokuapp.com/v1/log',
+    tracker: 'http://www.google-analytics.com/collect'
+
+cache_timeout =
+  development: 12 # in hours
+  production: 24 # in hours
 
 # verbosity levels
-# 0 = quiet (dev: warn or higher, prod: none)
-# 1 = normal (dev: info or higher, prod: warn or higher)
-# 2 = verbose (dev: debug or higher, prod: info or higher)
-# 3 = very verbose (dev: all, prod: debug or higher)
-verbosity = 1
-
-# priority levels
 # 1 = debug
 # 2 = info
 # 3 = warn
@@ -23,9 +54,15 @@ verbosity = 1
 # 9 = item
 # 10 = social
 
-logger_interval = 5000
-logging_priority = 2
-tracking_priority = 5
+# run when verbosity is this or higher
+verbosity =
+  development:
+    logger: local: 1, remote: 4
+    tracker: 5
+
+  production:
+    logger: local: 2, remote: 4
+    tracker: 5
 
 host = window?.location?.hostname ? require('os').hostname()
 localhost = host in ['localhost', 'tokpro.local', 'tokpro']
@@ -36,22 +73,16 @@ mobile_device = (/"#{list}"/).test ua?.toLowerCase()
 if mocha? or mochaPhantomJS?
   environment = 'testing'
   storage_mode = 'file'
-  logger_url = ''
-else if localhost and not debug_production
+else if localhost and not debug.production
   environment = 'development'
-  storage_mode = 'dualsync'
-  logger_url = 'http://localhost:8888/v1/log'
-  stale_age = 72 # in hours
+  storage_mode = 'remote'
 else
   environment = 'production'
-  storage_mode = 'file'
-  logger_url = 'http://flogger.herokuapp.com/v1/log'
-  stale_age = 12 # in hours
+  storage_mode = 'remote'
 
-mobile = debug_mobile or mobile_device
+mobile = debug.mobile or mobile_device
 console.log "#{environment} environment set"
 console.log "host: #{host}" if host
-console.log "verbosity: #{verbosity}"
 console.log "mobile device: #{mobile}"
 console.log "storage mode: #{storage_mode}"
 
@@ -59,20 +90,18 @@ devconfig =
   ########################
   # Development Settings #
   ########################
-  file_storage: storage_mode is 'file'
-  dual_storage: storage_mode is 'dualsync'
+  storage:
+    file: storage_mode is 'file'
+    local: storage_mode is 'local'
+    remote: storage_mode is 'remote'
   localhost: localhost
-  prod: environment is 'production'
   dev: environment is 'development'
-  debug_logger: debug_logger
-  debug_tracker: debug_tracker
+  prod: environment is 'production'
   testing: environment is 'testing'
-  verbosity: verbosity
-  logger_url: logger_url
-  analytics_url: analytics_url
-  logger_interval: logger_interval
-  logging_priority: logging_priority
-  tracking_priority: tracking_priority
+  verbosity: verbosity[environment]
+  urls: urls[environment]
+  enable: enable[environment]
+  time: time[environment]
   ua: ua
   mobile: mobile
 

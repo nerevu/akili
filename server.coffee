@@ -23,7 +23,6 @@ if process.env.NODETIME_ACCOUNT_KEY
 # Set variables
 port = process.env.PORT or 3333
 encoding = {encoding: 'utf-8'}
-debug_toobusy = true
 cache_days = 5
 max_cache_age = cache_days * 24 * 60 * 60 * 1000
 sv_timeout = 250 * 1000  # server timeout (in milliseconds)
@@ -45,12 +44,13 @@ else
 logger = new winston.Logger {transports: transports}
 
 # helper functions
-logError = (err, src='', error=true) ->
+logError = (err, src, error=true) ->
   logFun = if error then logger.error else logger.warn
-  message = if src then "#{src} #{err.message}" else err.message
+  message = if src then "#{src}: #{err.message}" else err.message
   logFun message
 
-sendError = (err, res, src='', code=500) ->
+sendError = (err, res, src, code=500) ->
+  message = if src then "#{src}: #{err.message}" else err.message
   res.status(code).send {error: err.message}
 
 haltOnTimedout = (req, res, next) -> if !req.timedout then next()
@@ -70,7 +70,7 @@ app.use haltOnTimedout
 
 # toobusy err handler
 app.use (req, res, next) ->
-  return next() if not toobusy() or (config.dev and not debug_toobusy)
+  return next() if not toobusy() or not devconfig.enable.toobusy
   res.setHeader 'Retry-After', sv_retry_after
   res.location req.url
   err = {message: "server too busy. try #{req.url} again later."}
