@@ -1,13 +1,10 @@
 /* Site CSS */
-#page-title {margin-bottom: 20px;}
-#page-title .lead {margin-bottom: 0;}
-#sidebar h3 {
-  padding-bottom: 9px;
-  border-bottom: 1px solid #eee;
-}
+body {padding-top: 70px;}
+/*#page-title {margin-bottom: 20px;}*/
+/*#page-title .lead {margin-bottom: 0;}*/
 
 h1 {border-bottom: 2px solid #eee;}
-#home h1 {border-bottom: 0;}
+/*#home h1 {border-bottom: 0;}*/
 
 .navbar .navbar-form {
   padding: 0 15px;
@@ -16,13 +13,96 @@ h1 {border-bottom: 2px solid #eee;}
   box-shadow: none;
 }
 
+.no-clear {clear: none !important;}
+.navbar-nav.navbar-right:last-child {margin-right: 15px;}
 .numeric {text-align: right;}
 .nounderline {text-decoration: none !important;}
-.active {background-color: #428BCA;}
 .cushion {margin-bottom: 10px;}
-.tag {margin-bottom: 10px;}
 .tag:hover, .tag:focus {background-color: #2A6496;}
-.label:hover, .label:focus {background-color: #2A6496;}
+.spacious {margin: 0 15px 0 15px;}
+.tag-default:hover, .tag-default:focus {background-color: #2A6496;}
+.tag, .tag-alt {margin-bottom: 3px;}
+.tag.active {background-color: #2A6496;}
+a.tag {margin: 5px 5px 0 0;}
+.tags {margin-bottom: 10px;}
+.tags-big {font-size: 1.5em;}
+.condensed {margin: 0;}
+
+.label-default[href]:hover, .label-default[href]:focus {
+  color: #ffffff; background-color: #2A6496;
+}
+
+.label:hover, .label:focus {color: #ffffff; background-color: #2A6496;}
+.text-offwhite {color: #f1ece6;}
+.btn-condensed {padding: 0;}
+.btn-condensed .glyphicon {margin: 3px 5px 3px 2px !important;}
+.icon-big {font-size: 35px;}
+
+.list-group h4 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+
+.tab-pane .list-group .glyphicon {margin-right: 5px;}
+.tab-pane .list-group .glyphicon:hover {color: #FFBC00;}
+
+.tab-pane .list-group .checkbox {display: inline-block; margin: 0px;}
+.list-group-item input[type="checkbox"] {
+  margin-top: 2px;
+
+  /* All browsers except webkit*/
+  transform: scale(2.5);
+
+  /* Webkit browsers*/
+  -webkit-transform: scale(2.5);
+}
+
+.page-header.visible-xs {margin-bottom: 0;}
+.list-group-item.unread {background-color: #FFFFFF;}
+.list-group-item.read {background-color: #F3F3F3;}
+
+div .list-group-item {border-top: 1px solid lightgrey;}
+.list-group-item:first-child {
+  border-top: none;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+div .list-group-item[style*="display: none;"] +
+.list-group-item:not([style*="display: none;"]) {
+  border-top: none;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+div .list-group-item:not([style*="display: none;"]) + .list-group-item {
+  border-top: none;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+div > .list-group-item:not([style*="display: none;"]) ~ *{
+  border-top: 1px solid lightgrey!important;
+}
+
+.tab-pane .list-group-item:last-child {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+hr {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.name {
+  min-width: 120px;
+  display: inline-block;
+}
+
+.nav-tabs .glyphicon:not(.no-margin) {margin-right:10px;}
+.nav-pills > li > a {padding: 5px 10px;}
 
 /* Sticky Footer */
 html, body, body #container {height: 100%;}
@@ -75,8 +155,10 @@ dimensions... For example width should be =< margin.left + margin.right
 + 1, of course 1 pixel for the entire chart would not be very useful,
 BUT should not have errors
 */
+
 body {overflow-x: hidden !important;}
 
+/* Choropleth */
 .state {
   fill: none;
   stroke: #fff;
@@ -84,6 +166,22 @@ body {overflow-x: hidden !important;}
 }
 
 svg {position: relative;}
+
+/* Bar chart */
+#map {
+  height: 400px;
+  width: 750px;
+  position: relative;
+}
+
+.chart {
+  height: 350px;
+  margin-left: -11px;
+  margin-right: -90px;
+}
+
+g.nv-group.nv-series-0 {fill-opacity: 0 !important;}
+g.nv-group.nv-series-1 {overflow: hidden;}
 
 /* NVD3 CSS */
 .nvtooltip {
