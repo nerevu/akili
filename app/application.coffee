@@ -15,7 +15,12 @@ module.exports = class Application extends Chaplin.Application
     mediator.risks.fetch()
     mediator.topology.fetch()
     mediator.names.fetch()
-    cookie_domain = if devconfig.localhost then {cookieDomain: 'none'} else 'auto'
+
+    if devconfig.localhost
+      cookie_domain = {cookieDomain: 'none'}
+    else
+      cookie_domain = 'auto'
+
     ga 'create', config.google.analytics_tracking_id, cookie_domain
     ga 'require', 'displayfeatures'
     super

@@ -96,4 +96,5 @@ module.exports = class Choropleth
     @params = levels: @levels
     d3.select(window).on('resize', _.debounce @resize, 10)
 
-  # add a 'debounce' so that no resizing at all happens until the user is done resizing
+  # add a 'debounce' so that no resizing at all happens until the user is
+  # done resizing
