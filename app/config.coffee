@@ -47,8 +47,17 @@ config =
         content: 'Link to source code'
 
   default:
+    factor_attr: 'factor'
     factor: 'unemployment'
+    factors: ['unemployment', 'healthcare']
     level: 'county'
+    levels:
+      state: 'states'
+      county: 'counties'
+
+    id_attr: 'id'
+    name_attr: 'name'
+    metric_attr: 'rate'
 
   google:
     analytics:

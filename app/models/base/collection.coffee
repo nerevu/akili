@@ -9,6 +9,7 @@ module.exports = class Collection extends Chaplin.Collection
 
   initialize: (models, options) ->
     super
+    utils.log "initialize #{@type} collection", 'info'
     @synced @afterSynced
 
   afterSynced: =>
