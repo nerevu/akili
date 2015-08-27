@@ -24,28 +24,6 @@ config =
       href: '/app'
       title: site_name
 
-    pages:
-      about:
-        page: 'about'
-        href: '/about'
-        title: 'About'
-        content: '250-word explanation of the project'
-      video:
-        page: 'video'
-        href: '/video'
-        title: 'Video'
-        content: 'embedded youtube video'
-      data:
-        page: 'data'
-        href: '/data'
-        title: 'Datasets'
-        content: 'List of all datasets used in the project development'
-      source:
-        page: 'source'
-        href: '/source'
-        title: 'Source Code'
-        content: 'Link to source code'
-
   default:
     factor_attr: 'factor'
     factor: 'unemployment'
