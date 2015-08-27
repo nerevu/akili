@@ -1,5 +1,5 @@
 mediator = require 'mediator'
-Collection = require 'models/risks'
+Collection = require 'models/food'
 Topology = require 'models/topology'
 Names = require 'models/names'
 config = require 'config'

@@ -25,17 +25,16 @@ config =
       title: site_name
 
   default:
-    factor_attr: 'factor'
-    factor: 'unemployment'
-    factors: ['unemployment', 'healthcare']
+    factor_attr: 'mp_year'
+    factor: 2014
+    factors: [2014, 2013, 2012, 2011, 2010]
     level: 'county'
     levels:
-      state: 'states'
-      county: 'counties'
+      blank: 'units'
 
-    id_attr: 'id'
-    name_attr: 'name'
-    metric_attr: 'rate'
+    id_attr: 'adm1_id'
+    name_attr: 'adm1_name'
+    metric_attr: 'mp_price'
 
   google:
     analytics:
