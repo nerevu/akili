@@ -1,23 +1,26 @@
 {
-  "name": "hhs-risk-factor-disparities",
+  "name": "akili",
   "version": "0.1.0",
   "main": "public/javascripts/app.js",
   "dependencies": {
-    "chaplin": "~1.0.0",
-    "console-polyfill": "~0.1.0",
-    "lodash": "~2.4.0",
-    "underscore.string": "~2.3.3",
-    "jquery": "~2.0.2",
-    "normalize-css": "~2.1.2",
-    "h5bp-helpers": "~0.1.0",
-    "bootstrap": "~3.0.3",
-    "minilog": "~2.0.6",
-    "moment": "~2.4.0",
-    "d3": "~3.4.13",
-    "topojson": "http://d3js.org/topojson.v1.js",
-    "colorbrewer": "http://d3js.org/colorbrewer.v1.js",
-    "Backbone.dualStorage": "git://github.com/nilbus/Backbone.dualStorage",
-    "google-analytics": "http://www.google-analytics.com/analytics.js"
+    "jquery": "~2.0",
+    "chaplin": "~1.0",
+    "console-polyfill": "~0.1",
+    "underscore": "~1.8",
+    "underscore.string": "~3.0",
+    "normalize-css": "~2.1",
+    "h5bp-helpers": "~0.1",
+    "bootstrap": "~3.3",
+    "minilog": "~2.0",
+    "moment": "~2.4",
+    "nvd3": "^1.8",
+    "chaplin-utils": "git://github.com/reubano/chaplin-utils#v0.14.2",
+    "colorbrewer": "~1.0",
+    "d3": "^3.5.5",
+    "d3-geo-projection": "^0.2.15",
+    "topojson": "^1.6.19",
+    "Backbone.dualStorage": "~1.4",
+    "store2": "~2.2"
   },
   "devDependencies": {
     "chai": "~1.9.1",
@@ -32,10 +35,6 @@
         "jquery": "*"
       },
       "main": "backbone.js"
-    },
-    "underscore.string": {
-      "dependencies": {},
-      "main": "lib/underscore.string.js"
     },
     "sinon": {
       "dependencies": {
