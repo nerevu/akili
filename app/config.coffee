@@ -8,8 +8,10 @@ config =
 
   site:
     title: site_name
-    description: 'An HTML5 data viz application built with Brunch and Chaplin.'
-    url: 'https://akili.heroku.com'
+    description: 'Number of food types sold in Mar 2015 by County'
+    url: 'http://nerevu.github.io/akili/'
+    data: 'https://data.hdx.rwlabs.org/dataset/wfp-food-prices'
+    source: 'https://github.com/nerevu/akili'
     id: 'com.akili.vizapp'
     type: 'webapp'
     version: '0.1.0'
@@ -17,25 +19,10 @@ config =
       brunch, chaplin, nodejs, backbonejs, bower, html5, single page app
       """
 
-    # Web pages
-    home:
-      id: 'food'
-      page: 'app'
-      href: '/app'
-      title: site_name
-
   default:
-    factor_attr: 'factor'
-    factor: 'unemployment'
-    factors: ['unemployment', 'healthcare']
-    level: 'county'
-    levels:
-      state: 'states'
-      county: 'counties'
-
-    id_attr: 'id'
-    name_attr: 'name'
-    metric_attr: 'rate'
+    idAttr: 'id'
+    nameAttr: 'mkt_name'
+    metricAttr: 'length'
 
   google:
     analytics:

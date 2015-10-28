@@ -7,31 +7,27 @@ mediator = require 'mediator'
 module.exports = class SiteController extends Controller
   initialize: (params) =>
     utils.log "initialize site-controller"
-    @factor = params?.factor ? config.default.factor
-    @title = config.site.home.title
+    @title = config.site.title
 
   getOptions: =>
+    grouped = @collection.groupBy (model) -> model.get 'mkt_name'
+    data = for region, models of grouped
+      _.extend models[0].toJSON(), {length: models.length}
+
     options =
       collection: @collection
-      factor: @factor
-      factors: config.default.factors
       topology: @topology.get 'topology'
       names: @names.toJSON()
-      level: config.default.level
-      levels: config.default.levels
-      data: @collection.toJSON()
-      idAttr: config.default.id_attr
-      nameAttr: config.default.name_attr
-      metricAttr: config.default.metric_attr
+      data: data
 
-  show: (params) => @reuse @factor, =>
+  show: (params) =>
     utils.log "home site-controller"
     @url = utils.reverse 'site#show', params
 
-    if mediator.synced
+    if mediator.synced.food
       @viewPage @getOptions()
     else
-      @subscribeEvent 'synced', -> @viewPage @getOptions()
+      @subscribeEvent 'synced:food', -> @viewPage @getOptions()
 
   viewPage: (options) =>
     @adjustTitle @title

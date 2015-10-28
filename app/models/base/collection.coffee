@@ -13,7 +13,7 @@ module.exports = class Collection extends Chaplin.Collection
     @synced @afterSynced
 
   afterSynced: =>
-    mediator.setSynced @
+    mediator.setSynced @type, @
     utils.log "#{@type} collection:"
     utils.log @
 

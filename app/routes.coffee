@@ -4,4 +4,3 @@ utils = require 'lib/utils'
 module.exports = (match) ->
   match '', 'site#show'
   match 'home', 'site#show'
-  match 'home/:factor', 'site#show'

@@ -1,6 +1,6 @@
 Model = require 'models/base/model'
 utils = require 'lib/utils'
-topology = require 'data/topology'
+topology = require 'data/kenya'
 
 module.exports = class Topology extends Model
   fetch: =>

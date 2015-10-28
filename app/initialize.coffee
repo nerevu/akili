@@ -4,6 +4,7 @@ routes = require 'routes'
 # Initialize the application on DOM ready event.
 $ ->
   new Application {
-    controllerSuffix: '-controller',
-    routes
+    controllerSuffix: '-controller'
+    routes: routes
+    pushState: false
   }
