@@ -125,6 +125,7 @@ html, body, body #container {height: 100%;}
 }
 
 #site-footer p {margin: 20px 0;}
+#site-footer p.visible-xs {margin: 10px 0;}
 
 /* Carousel */
 .carousel-control, .carousel .item {
