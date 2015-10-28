@@ -11,11 +11,11 @@
   "description": "A highly scalable & plugable, Web Application.",
   "icons": [
     {
-      "src": "icons/favicon-192.png",
+      "src": "/icons/favicon-192.png",
       "sizes": "192x192"
     },
     {
-      "src": "icons/favicon-512.png",
+      "src": "/icons/favicon-512.png",
       "sizes": "512x512"
     }
   ]
