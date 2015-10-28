@@ -56,7 +56,6 @@
     "winston-papertrail": "^0.1.5"
   },
   "devDependencies": {
-    "mocha-phantomjs": ">= 3.3.2",
-    "phantomjs": ">= 1.9.7-5"
+    "mocha-phantomjs": ">= 3.3.2"
   }
 }
