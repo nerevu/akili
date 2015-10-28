@@ -1,6 +1,6 @@
 # akili
 
-![4w-demo](app/assets/images/github_akili.gif)
+![akili-screenshot](app/assets/images/github_akili.png)
 
 ## Introduction
 
