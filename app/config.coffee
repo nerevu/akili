@@ -8,8 +8,10 @@ config =
 
   site:
     title: site_name
-    description: 'An HTML5 data viz application built with Brunch and Chaplin.'
-    url: 'https://akili.heroku.com'
+    description: 'Number of food types sold in Mar 2015 by County'
+    url: 'http://nerevu.github.io/akili/'
+    data: 'https://data.hdx.rwlabs.org/dataset/wfp-food-prices'
+    source: 'https://github.com/nerevu/akili'
     id: 'com.akili.vizapp'
     type: 'webapp'
     version: '0.1.0'
@@ -18,9 +20,9 @@ config =
       """
 
   default:
-    id_attr: 'adm1_id'
-    name_attr: 'adm1_name'
-    metric_attr: 'mp_price'
+    idAttr: 'id'
+    nameAttr: 'mkt_name'
+    metricAttr: 'length'
 
   google:
     analytics:

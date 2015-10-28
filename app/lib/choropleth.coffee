@@ -15,26 +15,26 @@ module.exports = class Choropleth
     # optional
     @numColors = options?.numColors ? 9
     @colorScheme = options?.colorScheme ? 'Reds'
-    @projection = options?.projection ? d3.geo.albersUsa()
-    @margin = options?.margin ? top: -30, left: 0, bottom: 0, right: 0
-    @heightRatio = options?.heightRatio ? 0.45
+    @projection = options?.projection ? d3.geo.mercator()
 
-    # calculated
-    @objects = @topology.objects
   init: =>
     @colors = colorbrewer[@colorScheme][@numColors]
     @extent = d3.extent(@data, (d) => d[@metricAttr])
     @color = d3.scale.quantize().domain(@extent).range(@colors)
-    @metricById = _.object([m[@idAttr], +m[@metricAttr]] for m in @data)
     @nameById = _.object([m[@idAttr], m[@nameAttr]] for m in @names)
+    @metricByName = _.object([m[@nameAttr], +m[@metricAttr]] for m in @data)
 
-  createPath: => d3.geo.path().projection(@projection)
+  createPath: (projection) -> d3.geo.path().projection(projection)
+  getWidth: => $(@parent).width()
+  getHeight: (width) => width * @heightRatio
+
   tooltipShow: (d) =>
-    name = @nameById[d[@idAttr]]
-    metric = @metricById[d[@idAttr]]
+    name = @nameById[d[@idAttr]] or 'N/A'
+    metric = @metricByName[name] or 0
+    formatter = d3.format(",.2f")
 
     $("##{d[@idAttr]}").tooltip(
-      title: "<h5>#{name}: #{metric}</h5>"
+      title: "<h5>#{name}: #{formatter(metric)}</h5>"
       html: true
       container: @parent
       placement: 'auto'
@@ -42,56 +42,53 @@ module.exports = class Choropleth
 
   tooltipHide: => $(@).tooltip('hide')
 
-  dimensions: (width=null) =>
-    width = width ? $(@parent).width()
-    height = width * @heightRatio
+  calcProjection: (projection, width) =>
+    # http://stackoverflow.com/a/14691788/408556
+    path = @createPath projection
+    b = path.bounds(@topology)
+    bwidth = Math.abs(b[1][0] - b[0][0])
+    bheight = Math.abs(b[1][1] - b[0][1])
+    ratio = bheight / bwidth
+    s = .9 / (bwidth / width)
+    height = width * ratio
 
-    dimensions =
-      width: width - @margin.left - @margin.right
-      height: height - @margin.top - @margin.bottom
+    result =
+      scale: s
+      x: (width - s * (b[1][0] + b[0][0])) / 2
+      y: (height - s * (b[1][1] + b[0][1])) / 2
+      height: height
+
+    result
 
   resize: =>
-    dimensions = @dimensions @params?.width
+    r = @calcProjection @projection.scale(1).translate([0, 0]), @getWidth()
+    projection = @projection.scale(r.scale).translate([r.x, r.y])
+    path = @createPath projection
+    $(@selection)[0].setAttribute 'height', r.height
+    d3.select(@selection).selectAll('g path').attr('d', path)
 
-    # resize the selection
-    @d3selection
-      .attr('width', dimensions.width)
-      .attr('height', dimensions.height)
+  makeChart: =>
+    d3selection = d3.select(@selection)
+    width = @getWidth()
+    r = @calcProjection @projection.scale(1).translate([0, 0]), width
+    projection = @projection.scale(r.scale).translate([r.x, r.y])
+    path = @createPath projection
 
-    # update the projection
-    @projection
-      .scale(dimensions.width)
-      .translate([dimensions.width / 2, dimensions.height / 2])
+    d3selection.append('g')
+      .attr('class', 'region')
+      .selectAll('path')
+      .data(@topology.features)
+      .enter()
+      .append('path')
+      .attr(@idAttr, (d) => d[@idAttr])
+      .attr('d', path)
 
-    # resize the map
-    for level, levelAttr of @levels
-      d3.selectAll("#{@selection} g.#{level} path").attr('d', @path)
-
-  removeChart: => @d3selection.remove()
-
-  makeChart: (width=null) =>
-    @d3selection = d3.select(@selection)
-    @params = width: width
-    @resize()
-    @path = @createPath @projection
-
-    for level, levelAttr of @levels
-      region = topojson.feature(@topology, @objects[levelAttr])
-
-      @d3selection.append('g')
-        .attr('class', level)
-        .selectAll('path')
-        .data(region.features)
-        .enter()
-        .append('path')
-        .attr('id', (d) => d[@idAttr])
-        .attr('d', @path)
-
-    d3.selectAll("#{@selection} g.#{@level} path")
-      .attr('fill', (d) => @color @metricById[d[@idAttr]])
+    d3.selectAll("#{@selection} g path")
+      .attr('fill', (d) =>
+        name = @nameById[d[@idAttr]]
+        (@color @metricByName[name]) or '#ccc'
+      )
       .on('mouseover', @tooltipShow).on('mouseout', @tooltipHide)
 
-    d3.select(window).on('resize', _.debounce @resize, 10)
-
-  # add a 'debounce' so that no resizing at all happens until the user is
-  # done resizing
+    $(@selection)[0].setAttribute 'height', r.height
+    d3.select(window).on('resize', _.debounce @resize, 50)

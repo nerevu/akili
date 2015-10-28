@@ -147,37 +147,26 @@ html, body, body #container {height: 100%;}
   transition: width 0.35s ease;
 }
 
-/*
-Chart CSS
-
-Minimum height and width is a good idea to prevent negative SVG
-dimensions... For example width should be =< margin.left + margin.right
-+ 1, of course 1 pixel for the entire chart would not be very useful,
-BUT should not have errors
-*/
+/* Chart CSS */
 
 body {overflow-x: hidden !important;}
 
 /* Choropleth */
-.state {
+.region {
   fill: none;
   stroke: #fff;
   stroke-linejoin: round;
 }
 
-svg {position: relative;}
+svg {
+  position: relative;
+  width: 100%;
+}
 
 /* Bar chart */
 #map {
-  height: 400px;
-  width: 750px;
   position: relative;
-}
-
-.chart {
-  height: 350px;
-  margin-left: -11px;
-  margin-right: -90px;
+  height: 100%;
 }
 
 g.nv-group.nv-series-0 {fill-opacity: 0 !important;}

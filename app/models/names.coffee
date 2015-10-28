@@ -16,10 +16,4 @@ module.exports = class Names extends Collection
 
   parse: (resp) =>
     utils.log "parsing #{@type} resp"
-
-    for model in resp
-      if model.type is config.default.level
-        res = model.names
-        break
-
-    res
+    resp

@@ -10,11 +10,15 @@ module.exports = class SiteController extends Controller
     @title = config.site.title
 
   getOptions: =>
+    grouped = @collection.groupBy (model) -> model.get 'mkt_name'
+    data = for region, models of grouped
+      _.extend models[0].toJSON(), {length: models.length}
+
     options =
       collection: @collection
       topology: @topology.get 'topology'
       names: @names.toJSON()
-      data: @collection.toJSON()
+      data: data
 
   show: (params) =>
     utils.log "home site-controller"
