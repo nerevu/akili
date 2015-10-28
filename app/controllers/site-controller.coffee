@@ -28,10 +28,10 @@ module.exports = class SiteController extends Controller
     utils.log "home site-controller"
     @url = utils.reverse 'site#show', params
 
-    if mediator.synced
+    if mediator.synced.food
       @viewPage @getOptions()
     else
-      @subscribeEvent 'synced', -> @viewPage @getOptions()
+      @subscribeEvent 'synced:food', -> @viewPage @getOptions()
 
   viewPage: (options) =>
     @adjustTitle @title

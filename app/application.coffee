@@ -24,7 +24,7 @@ module.exports = class Application extends Chaplin.Application
     mediator.collection = new Collection()
     mediator.topology = new Topology()
     mediator.names = new Names()
-    mediator.synced = false
+    mediator.synced = {}
     mediator.active = {}
     mediator.url = null
     mediator.seal()
