@@ -2,10 +2,10 @@ module.exports = class Choropleth
   constructor: (options) ->
     # required
     @topology = options.topology
-    @levels = options.levels
-    @level = options.level
     @selection = options.selection
     @parent = options.parent
+    @data = options.data
+    @names = options.names
 
     # required if the default values aren't correct
     @idAttr = options.idAttr ? 'id'
@@ -21,21 +21,13 @@ module.exports = class Choropleth
 
     # calculated
     @objects = @topology.objects
+  init: =>
     @colors = colorbrewer[@colorScheme][@numColors]
-
-  init: (options) =>
-    # required
-    @data = options.data
-    @names = options.names
-
-    # calculated
     @extent = d3.extent(@data, (d) => d[@metricAttr])
     @color = d3.scale.quantize().domain(@extent).range(@colors)
     @metricById = _.object([m[@idAttr], +m[@metricAttr]] for m in @data)
     @nameById = _.object([m[@idAttr], m[@nameAttr]] for m in @names)
 
-  getColors: => @colors
-  getPercent: => 100 / @numColors
   createPath: => d3.geo.path().projection(@projection)
   tooltipShow: (d) =>
     name = @nameById[d[@idAttr]]

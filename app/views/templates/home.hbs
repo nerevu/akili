@@ -1,34 +1,15 @@
 <div class="col-sm-12">
   <div id="home" class="">
-  	<div class="form-group"></div>
-      <div class="row">
-        <div class="col-sm-12">
-          <form id="factor-form" class="form-horizontal" role="form">
-            <div class="form-group">
-              <div class="col-sm-3">
-                <label class="control-label">Year</label>
-              </div>
-              <div class="col-sm-9">
-                <select id="factor" name="factor" class="form-control">
-                  {{#each factors}}
-                  <option {{#if_active_factor this}}selected{{/if_active_factor}}>{{this}}</option>
-                  {{/each}}
-                </select>
-              </div>
-            </div>
-          </form>
+    <h2 class="text-left">{{description}}</h2>
+    <div id="legend" class="legend row">
+      <div class="col-md-12">
+        <div class="progress">
+          {{#each colors}}
+          <div class="progress-bar" role="progressbar" style="width: {{../percent}}%; background-color: {{this}};">
+            <span class="sr-only">{{../percent}}% Complete</span>
+          </div>
+          {{/each}}
         </div>
-      </div>
-    </div>
-    <hr>
-    <h2 class="text-left">{{factor}} prevalence by {{level}}</h2>
-    <div id="map" class="choropleth row">
-      <div class="progress">
-        {{#each colors}}
-        <div class="progress-bar" role="progressbar" style="width: {{../percent}}%; background-color: {{this}};">
-          <span class="sr-only">{{../percent}}% Complete</span>
-        </div>
-        {{/each}}
       </div>
       <div class="col-xs-6">
         <p class="text-left">{{min}}</p>

@@ -14,31 +14,22 @@ module.exports = class MainView extends View
   initialize: (options) =>
     super
     utils.log 'initializing main view'
-    @options = _.clone(options)
+    @options = _.extend options, config.default
     @options.parent = '#map'
     @options.selection = '#map svg'
     @choropleth = new Choropleth @options
-    @choropleth.init @options
-    @delegate 'change', '#factor', @getFactor
-    mediator.setActiveFactor options.factor
+    @choropleth.init()
 
   render: =>
     super
     _.defer @choropleth.makeChart
 
-  getFactor: =>
-    factor = @.$('#factor-form').serializeArray()[0].value.toLowerCase()
-    utils.redirectTo url: "home/#{factor}"
-
   getTemplateData: =>
     utils.log 'get main view template data'
     templateData = super
-    templateData.colors = @choropleth.getColors()
+    templateData.colors = @choropleth.colors
     templateData.min = @choropleth.extent[0]
     templateData.max = @choropleth.extent[1]
-    templateData.percent = @choropleth.getPercent()
-    templateData.level = @options.level
-    templateData.levels = @options.levels
-    templateData.factor = @options.factor
-    templateData.factors = @options.factors
+    templateData.percent = 100 / @choropleth.numColors
+    templateData.description = config.site.description
     templateData

@@ -7,24 +7,16 @@ mediator = require 'mediator'
 module.exports = class SiteController extends Controller
   initialize: (params) =>
     utils.log "initialize site-controller"
-    @factor = params?.factor ? config.default.factor
-    @title = config.site.home.title
+    @title = config.site.title
 
   getOptions: =>
     options =
       collection: @collection
-      factor: @factor
-      factors: config.default.factors
       topology: @topology.get 'topology'
       names: @names.toJSON()
-      level: config.default.level
-      levels: config.default.levels
       data: @collection.toJSON()
-      idAttr: config.default.id_attr
-      nameAttr: config.default.name_attr
-      metricAttr: config.default.metric_attr
 
-  show: (params) => @reuse @factor, =>
+  show: (params) =>
     utils.log "home site-controller"
     @url = utils.reverse 'site#show', params
 

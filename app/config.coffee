@@ -17,21 +17,7 @@ config =
       brunch, chaplin, nodejs, backbonejs, bower, html5, single page app
       """
 
-    # Web pages
-    home:
-      id: 'food'
-      page: 'app'
-      href: '/app'
-      title: site_name
-
   default:
-    factor_attr: 'mp_year'
-    factor: 2014
-    factors: [2014, 2013, 2012, 2011, 2010]
-    level: 'county'
-    levels:
-      blank: 'units'
-
     id_attr: 'adm1_id'
     name_attr: 'adm1_name'
     metric_attr: 'mp_price'
