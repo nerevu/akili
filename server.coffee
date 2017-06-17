@@ -1,47 +1,27 @@
-# Usage: coffee server.coffee
-
 # External dependencies
 express = require 'express'
-toobusy = require 'toobusy-js'
 winston = require 'winston'
-papertrail = require('winston-papertrail').Papertrail
 morgan = require 'morgan'
 bodyParser = require 'body-parser'
 compression = require 'compression'
 timeout = require 'connect-timeout'
 
-# Local dependencies
-config = require './app/config.coffee'
-devconfig = require './app/devconfig.coffee'
-
-# nodetime
-if process.env.NODETIME_ACCOUNT_KEY
-  require('nodetime').profile
-    accountKey: process.env.NODETIME_ACCOUNT_KEY
-    appName: config.site.title
-
-# Set variables
-port = process.env.PORT or 3333
-encoding = {encoding: 'utf-8'}
-cacheDays = 5
-maxCacheAge = cacheDays * 24 * 60 * 60 * 1000
-serverTimeout = 250 * 1000  # server timeout (in milliseconds)
-retryAfter = 5 * 1000 # toobusy wait time between requests (in milliseconds)
-
 # Set clients
 transports = []
 app = express()
 
-if devconfig.dev
-  transports.push new winston.transports.Console {colorize: true}
-  options = {filename: 'server.log', maxsize: 2097152}
-  transports.push new winston.transports.File options
-else
-  host = 'logs.papertrailapp.com'
-  options = {handleExceptions: true, host: host, port: 55976, colorize: true}
-  transports.push new papertrail options
-
+transports.push new winston.transports.Console {colorize: true}
+options = {filename: 'server.log', maxsize: 2097152}
+transports.push new winston.transports.File options
 logger = new winston.Logger {transports: transports}
+
+# Set variables
+encoding = {encoding: 'utf-8'}
+maxCacheAge = 10 * 1000
+serverTimeout = 25 * 1000 # server timeout (in milliseconds)
+
+# other
+port = process.env.PORT or 3333
 
 # helper functions
 logError = (err, src, error=true) ->
@@ -56,7 +36,6 @@ sendError = (err, res, src, code=500) ->
 haltOnTimedout = (req, res, next) -> if !req.timedout then next()
 
 # middleware
-# pipe web server logs through winston
 winstonStream = {write: (message, encoding) -> logger.info message}
 app.use timeout serverTimeout
 app.use morgan 'combined', {stream: winstonStream}
@@ -67,15 +46,6 @@ app.use compression()
 app.use haltOnTimedout
 app.use express.static __dirname + '/public', {maxAge: maxCacheAge}
 app.use haltOnTimedout
-
-# toobusy err handler
-app.use (req, res, next) ->
-  return next() if not toobusy() or not devconfig.enable.toobusy
-  res.setHeader 'Retry-After', retryAfter
-  res.location req.url
-  err = {message: "server too busy. try #{req.url} again later."}
-  logError err, 'app', false
-  sendError err, res, 'app', 503
 
 # CORS support
 configCORS = (req, res, next) ->
@@ -90,7 +60,12 @@ configCORS = (req, res, next) ->
 # pushState hack
 configPush = (req, res, next) ->
   if 'api' in req.url.split('/') then return next()
-  newUrl = req.protocol + '://' + req.get('Host') + '/#' + req.url
+
+  if ~req.get('Host').indexOf('localhost')
+    newUrl = "#{req.protocol}://#{req.get('Host')}/##{req.url}"
+  else
+    newUrl = "https://#{req.get('Host')}/##{req.url}"
+
   res.redirect newUrl
 
 # create server routes
@@ -103,9 +78,9 @@ app.use (err, req, res, next) ->
   sendError err, res, 'app', 504
 
 # start server
-server = app.listen port, -> logger.info "Listening on port #{port}"
+server = app.listen port, ->
+  logger.info "Listening on port #{port}"
 
 process.on 'SIGINT', ->
   server.close()
-  toobusy.shutdown()
   process.exit()

@@ -11,15 +11,23 @@ akili is a [Brunch](http://brunch.io) and [Chaplin](http://chaplinjs.org) web ap
 akili has been tested on the following configuration:
 
 - MacOS X 10.9.5
-- Brunch 1.8.5 (required)
-- Chaplin 1.0.1 (required)
-- [npm](https://www.npmjs.com/) 2.5.0 (required)
-- [Bower](http://bower.io) 1.6.3 (required)
-- [Coffeescript](http://coffeescript.org/) 1.6.2 (required to run a production server)
-- [Node.js](http://nodejs.org) 0.12.5 (required to run a production server)
-
+- [Brunch](https://brunch.io) (required)
+- [Chaplin](https://chaplinjs.org) (required)
+- [Node.js](http://nodejs.org) (required)
+- [Bower](http://bower.io) (required)
+- [Coffeescript](http://coffeescript.org/) (required to run a production server)
 
 ## Setup
+
+*Install node (if you haven't already)*
+
+MacOS X
+
+    sudo port install node
+
+or
+
+    brew install node
 
 *Install requirements (if you haven't already)*
 
@@ -29,13 +37,27 @@ npm install -g bower
 npm install -g coffee-script
 ```
 
+*Development versions*
+
+```bash
+$ node --version
+v4.4.5
+$ npm --version
+5.0.3
+$ brunch --version
+2.10.9
+$ bower --version
+1.8.0
+$ coffee --version
+CoffeeScript version 1.12.6
+```
+
 ## Installation
 
 ```bash
 git clone https://github.com/nerevu/akili.git
 cd akili
 npm install
-bower install
 ```
 
 ## Usage
