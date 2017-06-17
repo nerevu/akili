@@ -23,10 +23,10 @@ if process.env.NODETIME_ACCOUNT_KEY
 # Set variables
 port = process.env.PORT or 3333
 encoding = {encoding: 'utf-8'}
-cache_days = 5
-max_cache_age = cache_days * 24 * 60 * 60 * 1000
-sv_timeout = 250 * 1000  # server timeout (in milliseconds)
-sv_retry_after = 5 * 1000 # toobusy wait time between requests (in milliseconds)
+cacheDays = 5
+maxCacheAge = cacheDays * 24 * 60 * 60 * 1000
+serverTimeout = 250 * 1000  # server timeout (in milliseconds)
+retryAfter = 5 * 1000 # toobusy wait time between requests (in milliseconds)
 
 # Set clients
 transports = []
@@ -58,20 +58,20 @@ haltOnTimedout = (req, res, next) -> if !req.timedout then next()
 # middleware
 # pipe web server logs through winston
 winstonStream = {write: (message, encoding) -> logger.info message}
-app.use timeout sv_timeout
+app.use timeout serverTimeout
 app.use morgan 'combined', {stream: winstonStream}
 app.use haltOnTimedout
 app.use bodyParser.text()
 app.use haltOnTimedout
 app.use compression()
 app.use haltOnTimedout
-app.use express.static __dirname + '/public', {maxAge: max_cache_age}
+app.use express.static __dirname + '/public', {maxAge: maxCacheAge}
 app.use haltOnTimedout
 
 # toobusy err handler
 app.use (req, res, next) ->
   return next() if not toobusy() or not devconfig.enable.toobusy
-  res.setHeader 'Retry-After', sv_retry_after
+  res.setHeader 'Retry-After', retryAfter
   res.location req.url
   err = {message: "server too busy. try #{req.url} again later."}
   logError err, 'app', false
