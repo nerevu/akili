@@ -32,7 +32,7 @@ npm install -g coffee-script
 ## Installation
 
 ```bash
-brunch new gh:nerevu/akili
+git clone https://github.com/nerevu/akili.git
 cd akili
 npm install
 bower install
