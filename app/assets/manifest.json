@@ -1,0 +1,22 @@
+{
+  "name": "Nerevu Showcase Application",
+  "short_name": "Showcase App",
+  "dir": "ltr",
+  "lang": "en-US",
+  "orientation": "any",
+  "start_url": "/",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "display": "standalone",
+  "description": "A highly scalable & plugable, Web Application.",
+  "icons": [
+    {
+      "src": "icons/favicon-192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/favicon-512.png",
+      "sizes": "512x512"
+    }
+  ]
+}
