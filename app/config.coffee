@@ -2,8 +2,9 @@ site_name = 'Moringa Data Viz Training App'
 
 config =
   author:
-    name: 'Reuben Cummings'
-    url: 'https://reubano.github.io'
+    name: 'Nerevu Group, LLC'
+    handle: 'nerevu'
+    url: '//www.nerevu.com'
     email: 'reubano@gmail.com'
 
   site:
