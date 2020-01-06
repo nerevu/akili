@@ -27,7 +27,7 @@ config =
 
   default:
     factor_attr: 'factor'
-    factor: 'unemployment'
+    factor: 'healthcare'
     factors: ['unemployment', 'healthcare']
     level: 'county'
     levels:

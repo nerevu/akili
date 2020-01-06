@@ -5,7 +5,7 @@ config= require 'config'
 mediator = require 'mediator'
 
 module.exports = class Controller extends Chaplin.Controller
-  collection: mediator.collection
+  risks: mediator.risks
   topology: mediator.topology
   names: mediator.names
 

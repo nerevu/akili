@@ -8,33 +8,37 @@ module.exports = class SiteController extends Controller
   initialize: (params) =>
     utils.log "initialize site-controller"
     @factor = params?.factor ? config.default.factor
-    @title = config.site.home.title
+    @coloredLevel = params?.level ? config.default.level
 
-  getOptions: =>
-    options =
-      collection: @collection
-      factor: @factor
-      factors: config.default.factors
-      topology: @topology.get 'topology'
-      names: @names.toJSON()
-      level: config.default.level
-      levels: config.default.levels
-      data: @collection.toJSON()
-      idAttr: config.default.id_attr
-      nameAttr: config.default.name_attr
-      metricAttr: config.default.metric_attr
-
-  show: (params) => @reuse @factor, =>
-    utils.log "home site-controller"
+  show: (params) =>
+    utils.log "show site-controller"
+    @title = config.site.pages[params.page]?.title
     @url = utils.reverse 'site#show', params
+    @active = params.page
+    content = config.site.pages[params.page]?.content
 
-    if mediator.synced
-      @viewPage @getOptions()
-    else
-      @subscribeEvent 'synced', -> @viewPage @getOptions()
+  index: (params) => @reuse "#{@factor}:#{@coloredLevel}", =>
+    utils.log "index site-controller"
+    @title = config.site.home.title
+    @url = utils.reverse 'site#index', params
+    @active = config.site.home.page
+    allLevels = ['county', 'state']
+    shownLevels = if @coloredLevel is 'state' then ['state'] else allLevels
 
-  viewPage: (options) =>
+    options =
+      factor: @factor
+      model: @risks.findWhere factor: @factor
+      risks: @risks.pluck 'factor'
+      topology: @topology.get 'topology'
+      names: @names.findWhere(type: @coloredLevel).get 'names'
+      allLevels: allLevels
+      shownLevels: shownLevels
+      coloredLevel: @coloredLevel
+
+    @viewPage MainView, options
+
+  viewPage: (theView, options) =>
     @adjustTitle @title
     mediator.setUrl @url
     utils.log @title, 'pageview'
-    @view = new MainView options
+    @view = new theView options

@@ -2,16 +2,32 @@
   <div id="home" class="">
     <div class="form-group"></div>
     <div class="row">
-      <div class="col-sm-12">
-        <form id="factor-form" class="form-horizontal" role="form">
+      <div class="col-sm-6">
+        <form id="risk-form" class="form-horizontal" role="form">
           <div class="form-group">
             <div class="col-sm-3">
               <label class="control-label">Risk Factor</label>
             </div>
             <div class="col-sm-9">
-              <select id="factor" name="factor" class="form-control">
-                {{#each factors}}
+              <select id="risk-factor" name="risk_factor" class="form-control">
+                {{#each risks}}
                 <option {{#if_active_factor this}}selected{{/if_active_factor}}>{{this}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-6">
+        <form id="map-form" class="form-horizontal" role="form">
+          <div class="form-group">
+            <div class="col-sm-2">
+              <label class="control-label">Map</label>
+            </div>
+            <div class="col-sm-10">
+              <select id="map-detail" name="map_detail" class="form-control">
+                {{#each levels}}
+                <option {{#if_active_map this}}selected{{/if_active_map}}>{{this}}</option>
                 {{/each}}
               </select>
             </div>

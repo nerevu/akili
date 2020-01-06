@@ -39,6 +39,9 @@ register 'url', (routeName, params..., options) ->
 
 # Conditional evaluation
 # ----------------------
+register 'if_active_map', (map, options) ->
+  if mediator.active.map is map then options.fn(this) else options.inverse(this)
+
 register 'if_active_factor', (factor, options) ->
   if mediator.active.factor is factor
     options.fn(this)

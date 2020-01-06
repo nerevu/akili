@@ -1,5 +1,9 @@
 mediator = module.exports = Chaplin.mediator
 
+mediator.setActiveMap = (map) ->
+  mediator.active.map = map
+  mediator.publish 'activeMap'
+
 mediator.setActiveFactor = (factor) ->
   mediator.active.factor = factor
   mediator.publish 'activeFactor', factor

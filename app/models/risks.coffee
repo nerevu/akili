@@ -1,11 +1,11 @@
 Collection = require 'models/base/collection'
 Model = require 'models/base/model'
 utils = require 'lib/utils'
-config = require 'config'
+data = require 'data/risk_factors'
 
 module.exports = class Risks extends Collection
   model: Model
-  type: 'risks'
+  type: 'risk_factors'
   file: true
   local: false
   remote: false
@@ -23,3 +23,7 @@ module.exports = class Risks extends Collection
         break
 
     res
+
+  fetch: =>
+    utils.log "fetch Risks collection"
+    @set data
