@@ -28,6 +28,7 @@ exports.config =
   npm:
     globals:
       _cp: 'console-polyfill'
+      d3: 'd3'
 
     styles:
       'normalize.css': ['normalize.css']

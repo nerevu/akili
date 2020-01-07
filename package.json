@@ -48,6 +48,7 @@
     "express": "^4.17.1",
     "helmet": "^3.12.1",
     "css-brunch": ">= 1.0 < 1.9",
+    "d3": "^3.5.5",
     "handlebars-brunch": "^2.10.0",
     "javascript-brunch": ">= 1.0 < 1.9",
     "json-brunch": ">= 1.0 < 1.9",
