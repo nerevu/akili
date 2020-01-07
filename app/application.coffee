@@ -14,7 +14,6 @@ module.exports = class Application extends Chaplin.Application
     mediator.risks.fetch()
     mediator.topology.fetch()
     mediator.names.fetch()
-    utils.ga()
     super
 
   # Create additional mediator properties.

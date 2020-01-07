@@ -20,21 +20,14 @@ module.exports = class Choropleth
     @rateById = _.object([row.id, +row.rate] for row in @data)
     @nameById = _.object([row.id, row.name] for row in options.names)
 
+    @tip = tip().attr('class', 'd3-tip').html (d) =>
+      name = @nameById[d.id]
+      rate = @rateById[d.id]
+      "<h5>#{name}: #{rate}</h5>"
+
   getColors: => @colors
   getPercent: => 100 / @numColors
   createPath: => d3.geo.path().projection(@projection)
-  tooltipShow: (d) =>
-    name = @nameById[d.id]
-    rate = @rateById[d.id]
-
-    $("##{d.id}").tooltip(
-      title: "<h5>#{name}: #{rate}</h5>"
-      html: true
-      container: @parent
-      placement: 'auto'
-    ).tooltip('show')
-
-  tooltipHide: => $(@).tooltip('hide')
 
   dimensions: (width=null) =>
     width = width ? $(@parent).width()
@@ -89,9 +82,11 @@ module.exports = class Choropleth
         .attr('id', (d) -> d.id)
         .attr('d', @path)
 
-    d3.selectAll("#{@selection} g.#{@coloredLevel} path")
-      .attr('fill', (d) => @color @rateById[d.id])
-      .on('mouseover', @tooltipShow).on('mouseout', @tooltipHide)
+    svg = d3.selectAll("#{@selection} g.#{@coloredLevel} path")
+    svg.call @tip
+
+    svg.attr('fill', (d) => @color @rateById[d.id])
+      .on('mouseover', @tip.show).on('mouseout', @tip.hide)
 
     @params = levels: @levels
     d3.select(window).on('resize', _.debounce @resize, 10)
