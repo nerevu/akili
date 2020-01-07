@@ -1,48 +1,34 @@
 module.exports = class Choropleth
   constructor: (options) ->
-    # required
-    @topology = options.topology
-    @levels = options.levels
-    @level = options.level
-    @selection = options.selection
-    @parent = options.parent
-
-    # required if the default values aren't correct
-    @idAttr = options.idAttr ? 'id'
-    @nameAttr = options.nameAttr ? 'name'
-    @metricAttr = options.metricAttr ? 'value'
-
-    # optional
     @numColors = options?.numColors ? 9
     @colorScheme = options?.colorScheme ? 'Reds'
+    @topology = options.topology
+    @objects = @topology.objects
+    @levels = options.shownLevels
     @projection = options?.projection ? d3.geo.albersUsa()
     @margin = options?.margin ? top: -30, left: 0, bottom: 0, right: 0
     @heightRatio = options?.heightRatio ? 0.45
-
-    # calculated
-    @objects = @topology.objects
     @colors = colorbrewer[@colorScheme][@numColors]
+    @selection = options.selection
+    @parent = options.parent
 
   init: (options) =>
-    # required
     @data = options.data
-    @names = options.names
-
-    # calculated
-    @extent = d3.extent(@data, (d) => d[@metricAttr])
+    @coloredLevel = options.coloredLevel
+    @extent = d3.extent(@data, (d) -> d.rate)
     @color = d3.scale.quantize().domain(@extent).range(@colors)
-    @metricById = _.object([m[@idAttr], +m[@metricAttr]] for m in @data)
-    @nameById = _.object([m[@idAttr], m[@nameAttr]] for m in @names)
+    @rateById = _.object([row.id, +row.rate] for row in @data)
+    @nameById = _.object([row.id, row.name] for row in options.names)
 
   getColors: => @colors
   getPercent: => 100 / @numColors
   createPath: => d3.geo.path().projection(@projection)
   tooltipShow: (d) =>
-    name = @nameById[d[@idAttr]]
-    metric = @metricById[d[@idAttr]]
+    name = @nameById[d.id]
+    rate = @rateById[d.id]
 
-    $("##{d[@idAttr]}").tooltip(
-      title: "<h5>#{name}: #{metric}</h5>"
+    $("##{d.id}").tooltip(
+      title: "<h5>#{name}: #{rate}</h5>"
       html: true
       container: @parent
       placement: 'auto'
@@ -58,6 +44,13 @@ module.exports = class Choropleth
       width: width - @margin.left - @margin.right
       height: height - @margin.top - @margin.bottom
 
+  pluralize: (word) ->
+    num = word.length - 1
+    if word[num..] is 'y'
+      "#{word[...num]}ies"
+    else
+      "#{word}s"
+
   resize: =>
     dimensions = @dimensions @params?.width
 
@@ -72,7 +65,7 @@ module.exports = class Choropleth
       .translate([dimensions.width / 2, dimensions.height / 2])
 
     # resize the map
-    for level, levelAttr of @levels
+    for level in @params?.levels ? []
       d3.selectAll("#{@selection} g.#{level} path").attr('d', @path)
 
   removeChart: => @d3selection.remove()
@@ -83,8 +76,9 @@ module.exports = class Choropleth
     @resize()
     @path = @createPath @projection
 
-    for level, levelAttr of @levels
-      region = topojson.feature(@topology, @objects[levelAttr])
+    for level in @levels
+      plural = @pluralize level
+      region = topojson.feature(@topology, @objects[plural])
 
       @d3selection.append('g')
         .attr('class', level)
@@ -92,13 +86,14 @@ module.exports = class Choropleth
         .data(region.features)
         .enter()
         .append('path')
-        .attr('id', (d) => d[@idAttr])
+        .attr('id', (d) -> d.id)
         .attr('d', @path)
 
-    d3.selectAll("#{@selection} g.#{@level} path")
-      .attr('fill', (d) => @color @metricById[d[@idAttr]])
+    d3.selectAll("#{@selection} g.#{@coloredLevel} path")
+      .attr('fill', (d) => @color @rateById[d.id])
       .on('mouseover', @tooltipShow).on('mouseout', @tooltipHide)
 
+    @params = levels: @levels
     d3.select(window).on('resize', _.debounce @resize, 10)
 
   # add a 'debounce' so that no resizing at all happens until the user is

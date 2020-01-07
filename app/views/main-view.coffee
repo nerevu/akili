@@ -17,28 +17,35 @@ module.exports = class MainView extends View
     @options = _.clone(options)
     @options.parent = '#map'
     @options.selection = '#map svg'
+    @options.data = @options.model.get options.coloredLevel
     @choropleth = new Choropleth @options
     @choropleth.init @options
-    @delegate 'change', '#factor', @getFactor
+    @delegate 'change', '#risk-factor', @getRiskFactor
+    @delegate 'change', '#map-detail', @getMapDetail
+    mediator.setActiveMap options.coloredLevel
     mediator.setActiveFactor options.factor
 
   render: =>
     super
     _.defer @choropleth.makeChart
 
-  getFactor: =>
-    factor = @.$('#factor-form').serializeArray()[0].value.toLowerCase()
-    utils.redirectTo url: "home/#{factor}"
+  getRiskFactor: =>
+    factor = @.$('#risk-form').serializeArray()[0].value.toLowerCase()
+    utils.redirectTo url: "#{factor}/#{@options.coloredLevel}"
+
+  getMapDetail: =>
+    coloredLevel = @.$('#map-form').serializeArray()[0].value.toLowerCase()
+    utils.redirectTo url: "#{@options.factor}/#{coloredLevel}"
 
   getTemplateData: =>
-    utils.log 'get main view template data'
+    factor = "#{@options.factor[0].toUpperCase()}#{@options.factor[1..]}"
     templateData = super
     templateData.colors = @choropleth.getColors()
     templateData.min = @choropleth.extent[0]
     templateData.max = @choropleth.extent[1]
     templateData.percent = @choropleth.getPercent()
-    templateData.level = @options.level
-    templateData.levels = @options.levels
-    templateData.factor = @options.factor
-    templateData.factors = @options.factors
+    templateData.levels = @options.allLevels
+    templateData.level = @options.coloredLevel
+    templateData.factor = factor
+    templateData.risks = @options.risks
     templateData

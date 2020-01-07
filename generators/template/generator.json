@@ -1,8 +1,0 @@
-{
-  "files": [
-    {
-      "from": "empty",
-      "to": "app/views/templates/{{name}}.hbs"
-    }
-  ]
-}

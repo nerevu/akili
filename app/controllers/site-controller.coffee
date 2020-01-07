@@ -8,33 +8,30 @@ module.exports = class SiteController extends Controller
   initialize: (params) =>
     utils.log "initialize site-controller"
     @factor = params?.factor ? config.default.factor
+    @coloredLevel = params?.level ? config.default.level
+
+  index: (params) => @reuse "#{@factor}:#{@coloredLevel}", =>
+    utils.log "index site-controller"
     @title = config.site.home.title
+    @url = utils.reverse 'site#index', params
+    @active = config.site.home.page
+    allLevels = ['county', 'state']
+    shownLevels = if @coloredLevel is 'state' then ['state'] else allLevels
 
-  getOptions: =>
     options =
-      collection: @collection
       factor: @factor
-      factors: config.default.factors
+      model: @risks.findWhere factor: @factor
+      risks: @risks.pluck 'factor'
       topology: @topology.get 'topology'
-      names: @names.toJSON()
-      level: config.default.level
-      levels: config.default.levels
-      data: @collection.toJSON()
-      idAttr: config.default.id_attr
-      nameAttr: config.default.name_attr
-      metricAttr: config.default.metric_attr
+      names: @names.findWhere(type: @coloredLevel).get 'names'
+      allLevels: allLevels
+      shownLevels: shownLevels
+      coloredLevel: @coloredLevel
 
-  show: (params) => @reuse @factor, =>
-    utils.log "home site-controller"
-    @url = utils.reverse 'site#show', params
+    @viewPage MainView, options
 
-    if mediator.synced
-      @viewPage @getOptions()
-    else
-      @subscribeEvent 'synced', -> @viewPage @getOptions()
-
-  viewPage: (options) =>
+  viewPage: (theView, options) =>
     @adjustTitle @title
     mediator.setUrl @url
     utils.log @title, 'pageview'
-    @view = new MainView options
+    @view = new theView options

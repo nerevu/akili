@@ -2,6 +2,6 @@ utils = require 'lib/utils'
 
 # Application routes.
 module.exports = (match) ->
-  match '', 'site#show'
-  match 'home', 'site#show'
-  match 'home/:factor', 'site#show'
+  match '', 'site#index'
+  match ':factor', 'site#index'
+  match ':factor/:level', 'site#index'

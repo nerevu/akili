@@ -1,5 +1,8 @@
 exports.config =
-  # See http://brunch.io/#documentation for docs.
+  # See https://brunch.io/docs/config for docs.
+  watcher: usePolling: true
+  notifications: false
+
   plugins:
     coffeelint:
       pattern: /^app\/.*\.coffee$/
@@ -7,19 +10,24 @@ exports.config =
         indentation:
           value: 2
           level: "error"
+    cachebust:
+      manifest: 'public/cachebust-manifest.json'
 
   files:
     javascripts:
       joinTo:
         'javascripts/app.js': /^app/
-        'javascripts/vendor.js': /^(vendor|bower_components)/
-        'test/javascripts/test.js': /^test(\/|\\)(?!vendor)/
-        'test/javascripts/test-vendor.js': /^test(\/|\\)(?=vendor)/
+        'javascripts/vendor.js': /^(?!app)/
 
     stylesheets:
-      joinTo:
-        'stylesheets/app.css': /^(?!test)/
-        'test/stylesheets/test.css': /^test/
+      joinTo: 'stylesheets/app.css'
 
     templates:
-      joinTo: 'javascripts/app.js': /^app/
+      joinTo: 'javascripts/app.js'
+
+  npm:
+    globals:
+      _cp: 'console-polyfill'
+
+    styles:
+      'normalize.css': ['normalize.css']

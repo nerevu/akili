@@ -43,7 +43,6 @@ a.tag {margin: 5px 5px 0 0;}
   margin-bottom: 5px;
 }
 
-
 .tab-pane .list-group .glyphicon {margin-right: 5px;}
 .tab-pane .list-group .glyphicon:hover {color: #FFBC00;}
 
@@ -114,17 +113,18 @@ html, body, body #container {height: 100%;}
 
 #wrap {
   height: auto;
-  margin: 0 auto -60px;
+  margin: 0 auto -40px;
   min-height: 100%;
-  padding: 0 0 60px;
+  padding: 0 0 40px;
 }
 
 #site-footer {
   background-color: #F5F5F5;
-  height: 60px;
+  height: 40px;
 }
 
 #site-footer p {margin: 20px 0;}
+#site-footer p.visible-xs {margin: 10px 0;}
 
 /* Carousel */
 .carousel-control, .carousel .item {
@@ -169,8 +169,6 @@ svg {position: relative;}
 
 /* Bar chart */
 #map {
-  height: 400px;
-  width: 750px;
   position: relative;
 }
 

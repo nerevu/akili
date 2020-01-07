@@ -1,8 +1,9 @@
 {
   "author": "Reuben Cummings",
   "name": "akili",
+  "license": "MIT",
   "description": "Data Viz Training App",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "environment": "web",
   "homepage": "",
   "keywords": [
@@ -20,43 +21,43 @@
     "url": ""
   },
   "engines": {
-    "node": "0.12.x",
-    "npm": "2.5.x"
+    "node": "12.14.x",
+    "npm": "6.13.x"
   },
   "scripts": {
     "start": "brunch watch --server",
-    "test": "mocha-phantomjs -s loadImages=false public/test/index.html",
-    "postinstall": "bower install && brunch build"
+    "build": "bower install && brunch build || echo 'error building project'",
+    "build:prod": "brunch build --production || echo 'error building project'",
+    "heroku-postbuild": "npm run build:prod",
+    "postinstall": "npm run build"
   },
   "dependencies": {
-    "auto-reload-brunch": ">= 1.0 < 1.9",
-    "body-parser": "^1.5.2",
-    "bower": "^1.3.12",
-    "brunch": "1.8.5",
-    "clean-css-brunch": ">= 1.0 < 1.9",
-    "coffee-script": "^1.9.3",
-    "coffee-script-brunch": ">= 1.0 < 1.9",
-    "coffeelint-brunch": ">= 1.0 < 1.9",
-    "compression": "^1.0.11",
-    "connect-timeout": "^1.2.2",
+    "auto-reload-brunch": "^2.7.1",
+    "body-parser": "^1.19.0",
+    "bower": "^1.8.8",
+    "brunch": "^2.10.17",
+    "clean-css-brunch": "^3.0.0",
+    "coffee-script-brunch": "^2.10.2",
+    "coffeelint": "^2.1.0",
+    "coffeelint-brunch": "^2.10.0",
+    "coffeescript": "^1.12.7",
+    "console-polyfill": "~0.1.0",
+    "compression": "^1.7.2",
+    "connect-history-api-fallback": "^1.6.0",
+    "connect-timeout": "^1.9.0",
+    "express": "^4.17.1",
+    "helmet": "^3.12.1",
     "css-brunch": ">= 1.0 < 1.9",
-    "express": "^4.9.8",
-    "handlebars-brunch": ">= 1.0 < 1.9",
+    "handlebars-brunch": "^2.10.0",
     "javascript-brunch": ">= 1.0 < 1.9",
     "json-brunch": ">= 1.0 < 1.9",
-    "less-brunch": "^1.8.1",
-    "moment": "^2.8.3",
-    "morgan": "^1.2.3",
-    "process-env-brunch": "~1.4.4-d",
-    "sass-brunch": "^1.8.11",
-    "stylus-brunch": ">= 1.0 < 1.9",
-    "toobusy-js": "^0.3.1",
-    "uglify-js-brunch": ">= 1.0 < 1.9",
-    "winston": "^0.7.3",
-    "winston-papertrail": "^0.1.5"
+    "morgan": "^1.9.1",
+    "process-env-brunch": "^1.4.6",
+    "stylus-brunch": "^3.0.0",
+    "uglify-js-brunch": "^2.10.0",
+    "winston": "^3.2.1",
+    "winston-papertrail": "^1.0.5",
+    "@nerevu/cachebust-brunch": "^0.4.2"
   },
-  "devDependencies": {
-    "mocha-phantomjs": ">= 3.3.2",
-    "phantomjs": ">= 1.9.7-5"
-  }
+  "devDependencies": {}
 }
