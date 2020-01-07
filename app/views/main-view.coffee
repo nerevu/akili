@@ -38,7 +38,6 @@ module.exports = class MainView extends View
     utils.redirectTo url: "#{@options.factor}/#{coloredLevel}"
 
   getTemplateData: =>
-    utils.log 'get main view template data'
     factor = "#{@options.factor[0].toUpperCase()}#{@options.factor[1..]}"
     templateData = super
     templateData.colors = @choropleth.getColors()

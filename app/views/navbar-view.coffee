@@ -24,7 +24,6 @@ module.exports = class NavbarView extends View
       $('.navbar-collapse').collapse('hide')
 
   getTemplateData: =>
-    utils.log 'get navbar view template data'
     templateData = super
     templateData.site = config.site
     templateData

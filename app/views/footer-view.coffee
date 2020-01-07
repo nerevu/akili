@@ -19,7 +19,6 @@ module.exports = class FooterView extends View
     utils.log 'rendering footer view'
 
   getTemplateData: =>
-    utils.log 'get footer view template data'
     templateData = super
     templateData.author = config.author
     templateData.site = config.site
