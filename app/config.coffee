@@ -20,9 +20,6 @@ config =
 
     # Web pages
     home:
-      id: 'food'
-      page: 'app'
-      href: '/app'
       title: site_name
 
   default:

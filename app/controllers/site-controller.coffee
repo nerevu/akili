@@ -10,13 +10,6 @@ module.exports = class SiteController extends Controller
     @factor = params?.factor ? config.default.factor
     @coloredLevel = params?.level ? config.default.level
 
-  show: (params) =>
-    utils.log "show site-controller"
-    @title = config.site.pages[params.page]?.title
-    @url = utils.reverse 'site#show', params
-    @active = params.page
-    content = config.site.pages[params.page]?.content
-
   index: (params) => @reuse "#{@factor}:#{@coloredLevel}", =>
     utils.log "index site-controller"
     @title = config.site.home.title
