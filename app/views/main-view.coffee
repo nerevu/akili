@@ -31,11 +31,11 @@ module.exports = class MainView extends View
 
   getRiskFactor: =>
     factor = @.$('#risk-form').serializeArray()[0].value.toLowerCase()
-    utils.redirectTo url: "app/#{factor}/#{@options.coloredLevel}"
+    utils.redirectTo url: "#{factor}/#{@options.coloredLevel}"
 
   getMapDetail: =>
     coloredLevel = @.$('#map-form').serializeArray()[0].value.toLowerCase()
-    utils.redirectTo url: "app/#{@options.factor}/#{coloredLevel}"
+    utils.redirectTo url: "#{@options.factor}/#{coloredLevel}"
 
   getTemplateData: =>
     utils.log 'get main view template data'
