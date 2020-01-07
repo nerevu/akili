@@ -1,4 +1,4 @@
-site_name = 'Moringa Data Viz Training App'
+site_name = 'Choropleth Visualizer'
 
 config =
   author:

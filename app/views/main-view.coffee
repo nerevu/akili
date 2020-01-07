@@ -39,6 +39,7 @@ module.exports = class MainView extends View
 
   getTemplateData: =>
     utils.log 'get main view template data'
+    factor = "#{@options.factor[0].toUpperCase()}#{@options.factor[1..]}"
     templateData = super
     templateData.colors = @choropleth.getColors()
     templateData.min = @choropleth.extent[0]
@@ -46,6 +47,6 @@ module.exports = class MainView extends View
     templateData.percent = @choropleth.getPercent()
     templateData.levels = @options.allLevels
     templateData.level = @options.coloredLevel
-    templateData.factor = @options.factor
+    templateData.factor = factor
     templateData.risks = @options.risks
     templateData

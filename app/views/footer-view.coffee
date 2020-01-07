@@ -22,5 +22,6 @@ module.exports = class FooterView extends View
     utils.log 'get footer view template data'
     templateData = super
     templateData.author = config.author
+    templateData.site = config.site
     templateData.year = new Date().getFullYear()
     templateData
