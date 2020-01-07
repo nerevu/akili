@@ -21,7 +21,7 @@ enable =
 
   production:
     logger: local: true, remote: false
-    tracker: true
+    tracker: false
     toobusy: true
 
   testing:
