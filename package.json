@@ -41,7 +41,7 @@
     "coffeelint": "^2.1.0",
     "coffeelint-brunch": "^2.10.0",
     "coffeescript": "^1.12.7",
-    "console-polyfill": "~0.1.0",
+    "console-polyfill": "~0.3.0",
     "compression": "^1.7.2",
     "connect-history-api-fallback": "^1.6.0",
     "connect-timeout": "^1.9.0",
