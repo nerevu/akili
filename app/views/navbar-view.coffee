@@ -1,6 +1,5 @@
 View = require 'views/base/view'
 template = require 'views/templates/navbar'
-mediator = require 'mediator'
 config = require 'config'
 utils = require 'lib/utils'
 
