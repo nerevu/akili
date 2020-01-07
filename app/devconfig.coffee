@@ -31,12 +31,12 @@ enable =
 
 urls =
   development:
-    logger: 'http://localhost:8888/v1/log'
-    tracker: 'http://www.google-analytics.com/collect'
+    logger: '//localhost:8888/v1/log'
+    tracker: '//www.google-analytics.com/collect'
 
   production:
-    logger: 'http://flogger.herokuapp.com/v1/log',
-    tracker: 'http://www.google-analytics.com/collect'
+    logger: '//flogger.herokuapp.com/v1/log',
+    tracker: '//www.google-analytics.com/collect'
 
 cache_timeout =
   development: 12 # in hours
