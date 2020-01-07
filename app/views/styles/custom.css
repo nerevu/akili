@@ -123,6 +123,7 @@ html, body, body #container {height: 100%;}
   height: 40px;
 }
 
+#site-footer ul {margin: 10px 0;}
 #site-footer p {margin: 20px 0;}
 #site-footer p.visible-xs {margin: 10px 0;}
 
