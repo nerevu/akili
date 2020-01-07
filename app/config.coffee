@@ -13,7 +13,6 @@ config =
     url: '//showcase.akili.nerevu.com'
     id: 'com.akili.vizapp'
     type: 'webapp'
-    version: '0.1.0'
     source: '//github.com/nerevu/akili'
     data: '//github.com/nerevu/akili/tree/master/app/data'
     keywords: """
